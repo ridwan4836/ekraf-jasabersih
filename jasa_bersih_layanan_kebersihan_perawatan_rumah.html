@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jasa Bersih - Layanan harian bersih rumah, cuci & servis AC, serta perbaikan ringan terpercaya untuk warga sekitar.">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Jasa Bersih — Solusi Kebersihan & Perawatan Rumah Harian</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        laut: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        oranye: {
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom transitions and utility styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding-top: 0.75rem;
+            padding-bottom: 1rem;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        .faq-icon {
+            transition: transform 0.25s ease;
+        }
+        /* Toast animation */
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .toast-enter {
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased selection:bg-laut-100 selection:text-laut-900">
+
+    <!-- ==================== NAVBAR (MOBILE-FIRST & STICKY) ==================== -->
+    <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-laut-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Logo Brand -->
+                <a href="#beranda" class="flex items-center gap-2.5 group focus:outline-none">
+                    <div class="w-10 h-10 rounded-xl bg-laut-600 text-white flex items-center justify-center shadow-md shadow-laut-600/20 group-hover:bg-laut-700 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight text-laut-900 block leading-none">Jasa<span class="text-laut-600">Bersih</span></span>
+                        <span class="text-[11px] font-medium text-slate-500 tracking-wide">Layanan Warga Sekitar</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+                    <a href="#layanan" class="hover:text-laut-600 transition py-2">Paket Layanan</a>
+                    <a href="#kalkulator" class="hover:text-laut-600 transition py-2">Estimasi Biaya</a>
+                    <a href="#keunggulan" class="hover:text-laut-600 transition py-2">Keunggulan & Testimoni</a>
+                    <a href="#faq" class="hover:text-laut-600 transition py-2">FAQ</a>
+                </nav>
+
+                <!-- CTA Header & Mobile Toggle -->
+                <div class="flex items-center gap-2.5">
+                    <button type="button" data-open-modal="Konsultasi & Pemesanan Cepat"
+                        class="hidden sm:inline-flex items-center gap-2 bg-oranye-500 hover:bg-oranye-600 active:scale-95 text-white font-semibold text-sm px-4 py-2.5 rounded-xl shadow-md shadow-oranye-500/25 transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>Pesan Sekarang</span>
+                    </button>
+
+                    <!-- Hamburger Button -->
+                    <button id="mobile-menu-btn" type="button" aria-label="Buka Menu Navigasi" aria-expanded="false"
+                        class="md:hidden p-2.5 rounded-xl text-slate-700 hover:bg-laut-50 focus:outline-none focus:ring-2 focus:ring-laut-500 transition">
+                        <svg id="icon-menu-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="icon-menu-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-laut-100 px-4 pt-3 pb-5 space-y-2 shadow-lg">
+            <a href="#layanan" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-laut-50 hover:text-laut-700">Paket Layanan</a>
+            <a href="#kalkulator" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-laut-50 hover:text-laut-700">Kalkulator Estimasi</a>
+            <a href="#keunggulan" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-laut-50 hover:text-laut-700">Keunggulan & Testimoni</a>
+            <a href="#faq" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-laut-50 hover:text-laut-700">Tanya Jawab (FAQ)</a>
+            <div class="pt-2">
+                <button type="button" data-open-modal="Pemesanan Layanan"
+                    class="w-full flex items-center justify-center gap-2 bg-oranye-500 hover:bg-oranye-600 text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition">
+                    <span>Pesan Jadwal Sekarang</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ==================== HERO SECTION (60% WHITE / 30% SOFT BLUE / 10% ORANGE CTA) ==================== -->
+        <section id="beranda" class="relative overflow-hidden bg-gradient-to-b from-laut-50 via-white to-white pt-10 pb-16 sm:pt-16 sm:pb-24">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+                    
+                    <!-- Hero Left Copy -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-laut-100/80 text-laut-800 text-xs sm:text-sm font-semibold border border-laut-200">
+                            <span class="w-2 h-2 rounded-full bg-laut-600 animate-pulse"></span>
+                            <span>Siap Datang Hari Ini • Area Perumahan & Kos Sekitar</span>
+                        </div>
+
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.18]">
+                            Rumah Bersih, AC Dingin, Perbaikan Beres <span class="text-laut-600">Tanpa Ribet.</span>
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                            Layanan harian tepercaya untuk warga sekitar. Harga transparan sejak awal, teknisi & petugas ramah terverifikasi, serta garansi pengerjaan rapi.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 pt-2">
+                            <a id="hero-wa-btn" href="https://wa.me/6281234567890?text=Halo%20Jasa%20Bersih,%20saya%20ingin%20tanya%20jadwal%20layanan%20hari%20ini." target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center justify-center gap-2.5 bg-oranye-500 hover:bg-oranye-600 active:scale-95 text-white font-bold text-base px-6 py-4 rounded-2xl shadow-lg shadow-oranye-500/30 transition">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                                </svg>
+                                <span>Hubungi via WhatsApp</span>
+                            </a>
+
+                            <a href="#layanan"
+                                class="inline-flex items-center justify-center gap-2 bg-white hover:bg-laut-50 text-laut-800 font-bold text-base px-6 py-4 rounded-2xl border-2 border-laut-200 transition">
+                                <span>Lihat Paket & Harga</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <!-- Trust Indicators -->
+                        <div class="pt-4 grid grid-cols-3 gap-4 border-t border-slate-100 max-w-lg mx-auto lg:mx-0">
+                            <div>
+                                <p class="text-xl sm:text-2xl font-extrabold text-laut-700">1.200+</p>
+                                <p class="text-xs text-slate-500 font-medium">Rumah Terlayani</p>
+                            </div>
+                            <div>
+                                <p class="text-xl sm:text-2xl font-extrabold text-laut-700">4.9/5</p>
+                                <p class="text-xs text-slate-500 font-medium">Rating Warga</p>
+                            </div>
+                            <div>
+                                <p class="text-xl sm:text-2xl font-extrabold text-laut-700">&lt; 60 Mnt</p>
+                                <p class="text-xs text-slate-500 font-medium">Respon Cepat</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Right Visual Card (Clean Illustration & Quick Highlight) -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-laut-50 border border-laut-200/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-laut-900/5 relative">
+                            <div class="flex items-center justify-between mb-6">
+                                <span class="text-xs font-bold uppercase tracking-wider text-laut-700 bg-white px-3 py-1.5 rounded-full shadow-sm">
+                                    Layanan Terpopuler Minggu Ini
+                                </span>
+                                <span class="text-sm font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
+                                    Slot Tersedia
+                                </span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Item 1 -->
+                                <div class="bg-white p-4 rounded-2xl border border-laut-100 flex items-center justify-between gap-3 shadow-sm">
+                                    <div class="flex items-center gap-3.5">
+                                        <div class="w-11 h-11 rounded-xl bg-laut-100 text-laut-700 flex items-center justify-center shrink-0">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h2 class="font-bold text-slate-900 text-sm sm:text-base">General Cleaning Rumah</h2>
+                                            <p class="text-xs text-slate-500">Sapu, pel, kamar mandi & debu</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right shrink-0">
+                                        <span class="text-xs text-slate-400 block">Mulai</span>
+                                        <span class="font-extrabold text-laut-700 text-sm sm:text-base">Rp 75rb</span>
+                                    </div>
+                                </div>
+
+                                <!-- Item 2 -->
+                                <div class="bg-white p-4 rounded-2xl border border-laut-100 flex items-center justify-between gap-3 shadow-sm">
+                                    <div class="flex items-center gap-3.5">
+                                        <div class="w-11 h-11 rounded-xl bg-laut-100 text-laut-700 flex items-center justify-center shrink-0">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h2 class="font-bold text-slate-900 text-sm sm:text-base">Cuci & Servis AC Split</h2>
+                                            <p class="text-xs text-slate-500">Cuci indoor/outdoor & cek freon</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right shrink-0">
+                                        <span class="text-xs text-slate-400 block">Mulai</span>
+                                        <span class="font-extrabold text-laut-700 text-sm sm:text-base">Rp 85rb</span>
+                                    </div>
+                                </div>
+
+                                <!-- Item 3 -->
+                                <div class="bg-white p-4 rounded-2xl border border-laut-100 flex items-center justify-between gap-3 shadow-sm">
+                                    <div class="flex items-center gap-3.5">
+                                        <div class="w-11 h-11 rounded-xl bg-laut-100 text-laut-700 flex items-center justify-center shrink-0">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h2 class="font-bold text-slate-900 text-sm sm:text-base">Perbaikan Ringan Rumah</h2>
+                                            <p class="text-xs text-slate-500">Keran bocor, lampu, engsel pintu</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right shrink-0">
+                                        <span class="text-xs text-slate-400 block">Mulai</span>
+                                        <span class="font-extrabold text-laut-700 text-sm sm:text-base">Rp 60rb</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-4 border-t border-laut-200/70 flex items-center justify-between text-xs text-laut-900 font-medium">
+                                <span>✓ Alat & cairan pembersih dibawa tim</span>
+                                <a href="#kalkulator" class="text-oranye-600 font-bold hover:underline">Hitung Biaya →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== DAFTAR LAYANAN & FILTER PAKET ==================== -->
+        <section id="layanan" class="py-16 sm:py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-xs font-bold uppercase tracking-widest text-laut-600">Daftar Paket Transparan</span>
+                    <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Pilih Layanan Sesuai Kebutuhan</h2>
+                    <p class="mt-3 text-slate-600 text-sm sm:text-base">Tidak ada biaya tersembunyi. Filter kategori di bawah untuk melihat rincian pekerjaan dan estimasi harga pasti.</p>
+                </div>
+
+                <!-- Filter Pills -->
+                <div id="filter-container" class="flex flex-wrap items-center justify-center gap-2.5 mb-10" role="tablist" aria-label="Filter Kategori Layanan">
+                    <button type="button" data-filter="semua" class="filter-btn active px-5 py-2.5 rounded-full text-sm font-bold transition bg-laut-600 text-white shadow-sm cursor-pointer">
+                        Semua Layanan
+                    </button>
+                    <button type="button" data-filter="bersih" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition bg-laut-50 text-laut-800 hover:bg-laut-100 cursor-pointer">
+                        Bersih Rumah & Kos
+                    </button>
+                    <button type="button" data-filter="ac" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition bg-laut-50 text-laut-800 hover:bg-laut-100 cursor-pointer">
+                        Servis & Cuci AC
+                    </button>
+                    <button type="button" data-filter="perbaikan" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold transition bg-laut-50 text-laut-800 hover:bg-laut-100 cursor-pointer">
+                        Perbaikan Ringan
+                    </button>
+                </div>
+
+                <!-- Grid Cards Paket (Rendered safely via JS) -->
+                <div id="paket-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Diisi oleh JavaScript menggunakan DOM API & textContent -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== KALKULATOR ESTIMASI CEPAT ==================== -->
+        <section id="kalkulator" class="py-16 sm:py-20 bg-laut-50 border-y border-laut-100">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-3xl shadow-xl shadow-laut-900/5 border border-laut-100 p-6 sm:p-10">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-laut-100 text-laut-800 text-xs font-bold mb-2">Simulasi Instan</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Kalkulator Estimasi Biaya</h2>
+                            <p class="text-sm text-slate-600 mt-1">Hitung perkiraan total biaya dan langsung kirim rincian ke WhatsApp admin.</p>
+                        </div>
+                    </div>
+
+                    <form id="calc-form" class="mt-6 space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <!-- Pilih Layanan Utama -->
+                            <div>
+                                <label for="calc-service" class="block text-sm font-bold text-slate-700 mb-2">Pilih Jenis Layanan</label>
+                                <select id="calc-service" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-800 focus:border-laut-600 focus:outline-none focus:ring-2 focus:ring-laut-500/20">
+                                    <option value="75000" data-unit="Sesi (2 Jam)" data-name="Bersih Harian Rumah / Kos">Bersih Harian Rumah / Kos (Rp 75.000/sesi)</option>
+                                    <option value="165000" data-unit="Paket Rumah" data-name="Deep Cleaning Rumah 1 Lantai">Deep Cleaning Rumah 1 Lantai (Rp 165.000/paket)</option>
+                                    <option value="85000" data-unit="Unit AC" data-name="Cuci AC Split 0.5 - 2 PK">Cuci AC Split 0.5 - 2 PK (Rp 85.000/unit)</option>
+                                    <option value="180000" data-unit="Unit AC" data-name="Cuci AC + Tambah Freon R32/R410">Cuci AC + Tambah Freon (Rp 180.000/unit)</option>
+                                    <option value="60000" data-unit="Titik Perbaikan" data-name="Perbaikan Ringan (Keran/Lampu/Engsel)">Perbaikan Ringan Keran/Lampu (Rp 60.000/titik)</option>
+                                    <option value="110000" data-unit="Kamar Mandi" data-name="Kuras Toren Air / Kerak Kamar Mandi">Kuras Toren / Kerak Kamar Mandi (Rp 110.000/unit)</option>
+                                </select>
+                            </div>
+
+                            <!-- Jumlah Unit / Sesi -->
+                            <div>
+                                <label for="calc-qty" class="block text-sm font-bold text-slate-700 mb-2">
+                                    Jumlah (<span id="calc-unit-label">Sesi (2 Jam)</span>)
+                                </label>
+                                <div class="flex items-center gap-3">
+                                    <button type="button" id="qty-minus" aria-label="Kurangi jumlah"
+                                        class="w-12 h-12 rounded-xl bg-laut-50 hover:bg-laut-100 text-laut-800 font-bold text-xl flex items-center justify-center border border-laut-200 transition cursor-pointer">
+                                        −
+                                    </button>
+                                    <input type="number" id="calc-qty" value="1" min="1" max="20" readonly
+                                        class="w-full text-center rounded-xl border border-slate-300 bg-slate-50 py-3 text-base font-extrabold text-slate-900">
+                                    <button type="button" id="qty-plus" aria-label="Tambah jumlah"
+                                        class="w-12 h-12 rounded-xl bg-laut-50 hover:bg-laut-100 text-laut-800 font-bold text-xl flex items-center justify-center border border-laut-200 transition cursor-pointer">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Opsi Tambahan -->
+                        <div class="bg-laut-50/70 p-4 rounded-2xl border border-laut-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="flex items-start sm:items-center gap-3 cursor-pointer select-none">
+                                <input type="checkbox" id="calc-tools" checked class="mt-1 sm:mt-0 w-5 h-5 rounded text-laut-600 focus:ring-laut-500 border-slate-300">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-800 block">Bawa Peralatan & Cairan Pembersih Lengkap (+Rp 15.000)</span>
+                                    <span class="text-xs text-slate-500">Centang jika tidak menyediakan alat/cairan pembersih sendiri di rumah.</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Hasil Estimasi & Tombol Aksi -->
+                        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div class="text-center sm:text-left">
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500 block">Total Estimasi Biaya</span>
+                                <span id="calc-total-price" class="text-3xl font-extrabold text-laut-700">Rp 90.000</span>
+                                <span class="text-xs text-slate-500 block mt-0.5">*Sudah termasuk transport warga sekitar (radius 5 km)</span>
+                            </div>
+
+                            <button type="button" id="calc-order-btn"
+                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-oranye-500 hover:bg-oranye-600 active:scale-95 text-white font-bold text-base px-7 py-4 rounded-2xl shadow-lg shadow-oranye-500/25 transition cursor-pointer">
+                                <span>Lanjut Pesan Paket Ini</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== KEUNGGULAN & TESTIMONI WARGA ==================== -->
+        <section id="keunggulan" class="py-16 sm:py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-xs font-bold uppercase tracking-widest text-laut-600">Kenapa Memilih Kami?</span>
+                    <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Aman, Ramah, dan Bergaransi</h2>
+                </div>
+
+                <!-- 3 Keunggulan -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <div class="p-6 rounded-3xl bg-laut-50/60 border border-laut-100">
+                        <div class="w-12 h-12 rounded-2xl bg-laut-600 text-white flex items-center justify-center mb-4 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Petugas Terverifikasi KTP</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Seluruh mitra petugas berdomisili di area sekitar dengan identitas terdata jelas demi keamanan rumah Anda.</p>
+                    </div>
+
+                    <div class="p-6 rounded-3xl bg-laut-50/60 border border-laut-100">
+                        <div class="w-12 h-12 rounded-2xl bg-laut-600 text-white flex items-center justify-center mb-4 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Bayar Setelah Selesai</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Tidak perlu DP untuk layanan reguler. Cek hasil kerja petugas terlebih dahulu, baru bayar via QRIS atau tunai.</p>
+                    </div>
+
+                    <div class="p-6 rounded-3xl bg-laut-50/60 border border-laut-100">
+                        <div class="w-12 h-12 rounded-2xl bg-laut-600 text-white flex items-center justify-center mb-4 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Garansi Ulang 24 Jam</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Ada sudut yang kurang bersih atau AC masih menetes air? Tim kami kembali memperbaiki gratis dalam 1x24 jam.</p>
+                    </div>
+                </div>
+
+                <!-- Testimoni Singkat -->
+                <div class="bg-laut-900 text-white rounded-3xl p-6 sm:p-10">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                        <div>
+                            <h3 class="text-xl sm:text-2xl font-extrabold">Kata Tetangga & Warga Sekitar</h3>
+                            <p class="text-laut-200 text-sm mt-1">Ulasan asli pelanggan harian Jasa Bersih</p>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 bg-laut-800 px-4 py-2 rounded-full text-sm font-bold text-amber-300 self-start">
+                            ★★★★★ 4.9 / 5.0
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <div class="bg-laut-800/80 border border-laut-700 p-5 rounded-2xl">
+                            <p class="text-sm text-laut-50 leading-relaxed mb-4">"Sangat membantu pas ART pulang kampung. Datangnya tepat waktu, kamar mandi jadi kesat dan wangi banget."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full bg-laut-600 flex items-center justify-center font-bold text-xs">IR</div>
+                                <div>
+                                    <p class="text-sm font-bold">Ibu Ratna</p>
+                                    <p class="text-xs text-laut-300">Komplek Melati Blok C</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-laut-800/80 border border-laut-700 p-5 rounded-2xl">
+                            <p class="text-sm text-laut-50 leading-relaxed mb-4">"Cuci 2 unit AC di rumah cepat dan bersih. Nggak asal nawarin isi freon kalau tekanannya masih aman. Jujur!"</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full bg-laut-600 flex items-center justify-center font-bold text-xs">BH</div>
+                                <div>
+                                    <p class="text-sm font-bold">Pak Hendra</p>
+                                    <p class="text-xs text-laut-300">Griya Asri Tahap 2</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-laut-800/80 border border-laut-700 p-5 rounded-2xl">
+                            <p class="text-sm text-laut-50 leading-relaxed mb-4">"Pesan lewat WA pagi, siang langsung datang benerin keran dapur patah sama pasang rak dinding. Praktis banget."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full bg-laut-600 flex items-center justify-center font-bold text-xs">DN</div>
+                                <div>
+                                    <p class="text-sm font-bold">Mbak Dinda</p>
+                                    <p class="text-xs text-laut-300">Kos Eksklusif Kenanga</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FAQ AKORDEON SEDERHANA ==================== -->
+        <section id="faq" class="py-16 sm:py-20 bg-laut-50/60 border-t border-laut-100">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <span class="text-xs font-bold uppercase tracking-widest text-laut-600">Pertanyaan Umum</span>
+                    <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold text-slate-900">Sering Ditanyakan Warga</h2>
+                </div>
+
+                <div id="faq-container" class="space-y-3.5">
+                    <!-- FAQ Item 1 -->
+                    <div class="faq-item active bg-white border border-laut-100 rounded-2xl px-5 py-4 shadow-sm">
+                        <button type="button" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-bold text-slate-900 text-sm sm:text-base cursor-pointer">
+                            <span>Apakah bisa pesan mendadak untuk hari ini juga?</span>
+                            <svg class="faq-icon w-5 h-5 text-laut-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-600 leading-relaxed">
+                            Bisa! Untuk pemesanan sebelum pukul 14.00 WIB, tim kami biasanya dapat datang di hari yang sama (estimasi 1–2 jam setelah konfirmasi jadwal melalui WhatsApp).
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="faq-item bg-white border border-laut-100 rounded-2xl px-5 py-4 shadow-sm">
+                        <button type="button" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-bold text-slate-900 text-sm sm:text-base cursor-pointer">
+                            <span>Apakah peralatan kebersihan dan tangga disediakan oleh tim?</span>
+                            <svg class="faq-icon w-5 h-5 text-laut-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-600 leading-relaxed">
+                            Untuk servis AC dan perbaikan ringan, semua perkakas dan tangga lipat dibawa penuh oleh teknisi. Untuk bersih rumah, Anda bisa memakai alat sendiri atau memilih opsi paket lengkap dengan cairan pembersih dari kami.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="faq-item bg-white border border-laut-100 rounded-2xl px-5 py-4 shadow-sm">
+                        <button type="button" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-bold text-slate-900 text-sm sm:text-base cursor-pointer">
+                            <span>Bagaimana sistem pembayarannya?</span>
+                            <svg class="faq-icon w-5 h-5 text-laut-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-600 leading-relaxed">
+                            Pembayaran dilakukan setelah pekerjaan selesai dan Anda puas memeriksa hasilnya. Kami menerima transfer bank, QRIS, maupun uang tunai langsung ke petugas.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="faq-item bg-white border border-laut-100 rounded-2xl px-5 py-4 shadow-sm">
+                        <button type="button" class="faq-trigger w-full flex items-center justify-between text-left gap-4 font-bold text-slate-900 text-sm sm:text-base cursor-pointer">
+                            <span>Area mana saja yang dilayani Jasa Bersih?</span>
+                            <svg class="faq-icon w-5 h-5 text-laut-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer text-sm text-slate-600 leading-relaxed">
+                            Kami melayani rumah tapak, apartemen, ruko kecil, dan kamar kos di seluruh area kecamatan sekitar dalam radius 5–8 km dari posko operasional tanpa tambahan ongkos transport.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CTA PENUTUP ==================== -->
+        <section class="py-14 bg-white">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-gradient-to-r from-laut-700 to-laut-600 rounded-3xl p-8 sm:p-12 text-center text-white shadow-xl shadow-laut-700/20">
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-3">Butuh Bantuan Kebersihan atau Perbaikan Hari Ini?</h2>
+                    <p class="text-laut-100 text-sm sm:text-base max-w-xl mx-auto mb-7">
+                        Konsultasikan keluhan rumah Anda gratis. Admin kami siap merespons cepat melalui WhatsApp.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+                        <a href="https://wa.me/6281234567890?text=Halo%20Jasa%20Bersih,%20saya%20mau%20konsultasi%20layanan%20rumah." target="_blank" rel="noopener noreferrer"
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-oranye-500 hover:bg-oranye-600 text-white font-bold px-7 py-4 rounded-2xl shadow-lg transition">
+                            <span>Chat WhatsApp Sekarang</span>
+                        </a>
+                        <button type="button" data-open-modal="Form Pemesanan Cepat"
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/15 hover:bg-white/25 text-white font-semibold px-7 py-4 rounded-2xl border border-white/30 transition cursor-pointer">
+                            <span>Isi Form Jadwal Kunjungan</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
+                <div>
+                    <span class="text-xl font-extrabold text-white block mb-2">Jasa<span class="text-laut-400">Bersih</span></span>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Partner harian warga sekitar untuk kebersihan rumah, perawatan AC, dan perbaikan ringan yang jujur serta bergaransi.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-white mb-3">Jam Operasional</h4>
+                    <p class="text-sm text-slate-400">Senin – Minggu: 07.30 – 20.00 WIB</p>
+                    <p class="text-sm text-slate-400 mt-1">Posko: Jl. Melati Raya No. 14, Lingkungan Warga</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-white mb-3">Kontak Cepat</h4>
+                    <p class="text-sm text-slate-400">WhatsApp: +62 812-3456-7890</p>
+                    <button type="button" id="copy-phone-btn"
+                        class="mt-2.5 inline-flex items-center gap-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-laut-300 px-3.5 py-2 rounded-xl border border-slate-700 transition cursor-pointer">
+                        <span>Salin Nomor WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+                <p>&copy; <span id="current-year">2026</span> Jasa Bersih. Hak Cipta Dilindungi.</p>
+                <p>Harga transparan • Tanpa biaya tersembunyi</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL PEMESANAN (PENGGANTI ALERT/CONFIRM) ==================== -->
+    <div id="booking-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-laut-100 overflow-hidden animate-fadeIn">
+            <div class="bg-laut-50 px-6 py-4 border-b border-laut-100 flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-laut-600 block">Formulir Kunjungan</span>
+                    <h3 id="modal-title" class="text-lg font-extrabold text-slate-900">Pesan Layanan Jasa Bersih</h3>
+                </div>
+                <button type="button" id="close-modal-btn" aria-label="Tutup Modal"
+                    class="w-9 h-9 rounded-xl bg-white text-slate-500 hover:text-slate-800 flex items-center justify-center border border-slate-200 transition cursor-pointer">
+                    ✕
+                </button>
+            </div>
+
+            <form id="booking-form" class="p-6 space-y-4">
+                <div>
+                    <label for="cust-name" class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Nama Pemesan *</label>
+                    <input type="text" id="cust-name" required maxlength="60" placeholder="Contoh: Ibu Sari / Pak Budi"
+                        class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-laut-600 focus:outline-none focus:ring-2 focus:ring-laut-500/20">
+                </div>
+
+                <div>
+                    <label for="cust-service" class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Paket / Kebutuhan *</label>
+                    <input type="text" id="cust-service" required maxlength="120" value="Bersih Harian Rumah / Kos"
+                        class="w-full rounded-xl border border-slate-300 bg-laut-50/40 px-4 py-2.5 text-sm font-semibold text-laut-900 focus:border-laut-600 focus:outline-none focus:ring-2 focus:ring-laut-500/20">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="cust-date" class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Tanggal *</label>
+                        <input type="date" id="cust-date" required
+                            class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:border-laut-600 focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="cust-time" class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Jam Kunjungan *</label>
+                        <select id="cust-time" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm focus:border-laut-600 focus:outline-none">
+                            <option value="Pagi (08.00 - 11.00)">Pagi (08.00 - 11.00)</option>
+                            <option value="Siang (13.00 - 15.00)">Siang (13.00 - 15.00)</option>
+                            <option value="Sore (16.00 - 18.00)">Sore (16.00 - 18.00)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="cust-address" class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Alamat Singkat / Patokan *</label>
+                    <textarea id="cust-address" rows="2" required maxlength="200" placeholder="Contoh: Jl. Kenanga Blok B2 No. 5 (Depan Pos Satpam)"
+                        class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-laut-600 focus:outline-none focus:ring-2 focus:ring-laut-500/20"></textarea>
+                </div>
+
+                <div class="pt-2 flex flex-col gap-2.5">
+                    <button type="submit"
+                        class="w-full bg-oranye-500 hover:bg-oranye-600 text-white font-bold py-3.5 px-5 rounded-xl shadow-md shadow-oranye-500/25 transition cursor-pointer">
+                        Kirim Pesanan via WhatsApp
+                    </button>
+                    <p class="text-[11px] text-center text-slate-500">Data langsung diteruskan ke chat WhatsApp resmi Jasa Bersih.</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== IN-PAGE TOAST NOTIFICATION CONTAINER ==================== -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-[calc(100%-2.5rem)] pointer-events-none" aria-live="polite"></div>
+
+    <!-- ==================== MODULAR JAVASCRIPT (ANTI-XSS & SECURE) ==================== -->
+    <script>
+        (function () {
+            'use strict';
+
+            // Konfigurasi nomor WhatsApp bisnis (tanpa karakter non-digit)
+            const WA_NUMBER = '6281234567890';
+
+            // Data katalog paket layanan terstruktur
+            const PAKET_LAYANAN = [
+                {
+                    id: 'bersih-harian',
+                    kategori: 'bersih',
+                    labelKategori: 'Bersih Rumah',
+                    nama: 'Paket Bersih Harian (2 Jam)',
+                    harga: 'Rp 75.000',
+                    satuan: '/ sesi',
+                    populer: true,
+                    deskripsi: 'Cocok untuk kamar kos, apartemen studio, atau ruang tamu & dapur harian.',
+                    fitur: ['Sapu & pel seluruh lantai', 'Lap meja, kaca & perabot', 'Sikat kamar mandi ringan', 'Buang sampah rumah tangga']
+                },
+                {
+                    id: 'deep-clean',
+                    kategori: 'bersih',
+                    labelKategori: 'Bersih Rumah',
+                    nama: 'Deep Cleaning Rumah 1 Lantai',
+                    harga: 'Rp 165.000',
+                    satuan: '/ paket',
+                    populer: false,
+                    deskripsi: 'Pembersihan menyeluruh hingga sudut tersembunyi, plafon, dan kerak kamar mandi.',
+                    fitur: ['2 petugas berpengalaman', 'Bersih sarang laba-laba plafon', 'Pembersihan kerak kamar mandi', 'Poles area dapur & kompor']
+                },
+                {
+                    id: 'cuci-ac',
+                    kategori: 'ac',
+                    labelKategori: 'Servis AC',
+                    nama: 'Cuci AC Split (0.5 – 2 PK)',
+                    harga: 'Rp 85.000',
+                    satuan: '/ unit',
+                    populer: true,
+                    deskripsi: 'Mengembalikan hawa dingin AC dan mencegah kebocoran air pada unit indoor.',
+                    fitur: ['Cuci filter, evaporator & blower', 'Semprot unit outdoor', 'Pembersihan saluran pembuangan', 'Cek tekanan freon & ampere']
+                },
+                {
+                    id: 'ac-freon',
+                    kategori: 'ac',
+                    labelKategori: 'Servis AC',
+                    nama: 'Cuci AC + Tambah Freon R32/R410',
+                    harga: 'Rp 180.000',
+                    satuan: '/ unit',
+                    populer: false,
+                    deskripsi: 'Solusi lengkap untuk AC yang mulai kurang dingin akibat tekanan freon berkurang.',
+                    fitur: ['Termasuk cuci lengkap indoor/outdoor', 'Pengisian freon sesuai standar PK', 'Pengecekan kebocoran pipa', 'Garansi dingin 14 hari']
+                },
+                {
+                    id: 'perbaikan-ringan',
+                    kategori: 'perbaikan',
+                    labelKategori: 'Perbaikan Ringan',
+                    nama: 'Jasa Tukang Harian / Perbaikan Ringan',
+                    harga: 'Rp 60.000',
+                    satuan: '/ titik',
+                    populer: false,
+                    deskripsi: 'Solusi cepat untuk kerusakan kecil di rumah yang butuh peralatan tukang lengkap.',
+                    fitur: ['Ganti keran air / shower bocor', 'Pasang lampu, saklar & stopkontak', 'Perbaikan engsel pintu / kunci', 'Bor pasang bracket TV / rak dinding']
+                },
+                {
+                    id: 'kuras-toren',
+                    kategori: 'perbaikan',
+                    labelKategori: 'Perbaikan & Sanitasi',
+                    nama: 'Kuras Toren Air & Cek Pelampung',
+                    harga: 'Rp 110.000',
+                    satuan: '/ toren',
+                    populer: false,
+                    deskripsi: 'Menjaga kualitas air bersih keluarga bebas lumut dan endapan lumpur.',
+                    fitur: ['Kuras & sikat dinding dalam toren', 'Pengecekan otomatis radar/pelampung', 'Pembersihan filter kran utama', 'Kapasitas s/d 1.000 liter']
+                }
+            ];
+
+            // Helper: Format Rupiah aman
+            function formatRupiah(angka) {
+                return 'Rp ' + Number(angka).toLocaleString('id-ID');
+            }
+
+            // Helper: In-Page Toast Notification (Pengganti alert)
+            function showToast(message, type = 'info') {
+                const container = document.getElementById('toast-container');
+                if (!container) return;
+
+                const toast = document.createElement('div');
+                const bgClass = type === 'success'
+                    ? 'bg-emerald-700 text-white border-emerald-600'
+                    : type === 'warning'
+                    ? 'bg-oranye-600 text-white border-oranye-500'
+                    : 'bg-slate-900 text-white border-slate-700';
+
+                toast.className = `toast-enter pointer-events-auto flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl shadow-xl border text-sm font-medium ${bgClass}`;
+
+                const textSpan = document.createElement('span');
+                textSpan.textContent = message; // Anti-XSS menggunakan textContent
+
+                const closeBtn = document.createElement('button');
+                closeBtn.type = 'button';
+                closeBtn.className = 'text-white/80 hover:text-white font-bold ml-2 cursor-pointer';
+                closeBtn.textContent = '✕';
+                closeBtn.setAttribute('aria-label', 'Tutup notifikasi');
+                closeBtn.addEventListener('click', () => toast.remove());
+
+                toast.appendChild(textSpan);
+                toast.appendChild(closeBtn);
+                container.appendChild(toast);
+
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                }, 4000);
+            }
+
+            // 1. Render Paket Layanan secara aman menggunakan DOM API & textContent
+            function renderPaketCards(filterKategori = 'semua') {
+                const grid = document.getElementById('paket-grid');
+                if (!grid) return;
+
+                // Bersihkan kontainer
+                while (grid.firstChild) {
+                    grid.removeChild(grid.firstChild);
+                }
+
+                const filtered = filterKategori === 'semua'
+                    ? PAKET_LAYANAN
+                    : PAKET_LAYANAN.filter((item) => item.kategori === filterKategori);
+
+                filtered.forEach((paket) => {
+                    const card = document.createElement('article');
+                    card.className = `flex flex-col justify-between rounded-3xl p-6 transition border ${
+                        paket.populer
+                            ? 'bg-white border-laut-400 shadow-lg shadow-laut-600/10 ring-1 ring-laut-400/30'
+                            : 'bg-white border-slate-200 hover:border-laut-300 shadow-sm'
+                    }`;
+
+                    // Bagian Atas Card
+                    const topDiv = document.createElement('div');
+
+                    const headerRow = document.createElement('div');
+                    headerRow.className = 'flex items-center justify-between gap-2 mb-3';
+
+                    const badgeCat = document.createElement('span');
+                    badgeCat.className = 'text-xs font-bold px-3 py-1 rounded-full bg-laut-50 text-laut-700 border border-laut-100';
+                    badgeCat.textContent = paket.labelKategori;
+                    headerRow.appendChild(badgeCat);
+
+                    if (paket.populer) {
+                        const badgePop = document.createElement('span');
+                        badgePop.className = 'text-xs font-bold px-3 py-1 rounded-full bg-oranye-500/10 text-oranye-600';
+                        badgePop.textContent = '★ Paling Laris';
+                        headerRow.appendChild(badgePop);
+                    }
+
+                    const title = document.createElement('h3');
+                    title.className = 'text-lg font-extrabold text-slate-900 mb-1.5';
+                    title.textContent = paket.nama;
+
+                    const desc = document.createElement('p');
+                    desc.className = 'text-xs sm:text-sm text-slate-500 leading-relaxed mb-4';
+                    desc.textContent = paket.deskripsi;
+
+                    const priceBox = document.createElement('div');
+                    priceBox.className = 'pb-4 mb-4 border-b border-slate-100 flex items-baseline gap-1';
+
+                    const priceVal = document.createElement('span');
+                    priceVal.className = 'text-2xl font-extrabold text-laut-700';
+                    priceVal.textContent = paket.harga;
+
+                    const priceUnit = document.createElement('span');
+                    priceUnit.className = 'text-xs font-semibold text-slate-500';
+                    priceUnit.textContent = paket.satuan;
+
+                    priceBox.appendChild(priceVal);
+                    priceBox.appendChild(priceUnit);
+
+                    const ul = document.createElement('ul');
+                    ul.className = 'space-y-2 mb-6';
+
+                    paket.fitur.forEach((f) => {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-start gap-2 text-xs sm:text-sm text-slate-700';
+
+                        const check = document.createElement('span');
+                        check.className = 'text-laut-600 font-bold shrink-0';
+                        check.textContent = '✓';
+
+                        const fText = document.createElement('span');
+                        fText.textContent = f;
+
+                        li.appendChild(check);
+                        li.appendChild(fText);
+                        ul.appendChild(li);
+                    });
+
+                    topDiv.appendChild(headerRow);
+                    topDiv.appendChild(title);
+                    topDiv.appendChild(desc);
+                    topDiv.appendChild(priceBox);
+                    topDiv.appendChild(ul);
+
+                    // Tombol Aksi Card
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'w-full py-3 px-4 rounded-xl bg-oranye-500 hover:bg-oranye-600 active:scale-95 text-white font-bold text-sm shadow-sm transition cursor-pointer';
+                    btn.textContent = 'Pilih Paket Ini';
+                    btn.addEventListener('click', () => {
+                        openBookingModal(`${paket.nama} (${paket.harga})`);
+                    });
+
+                    card.appendChild(topDiv);
+                    card.appendChild(btn);
+                    grid.appendChild(card);
+                });
+            }
+
+            // 2. Filter Interaktif
+            function initFilters() {
+                const filterBtns = document.querySelectorAll('.filter-btn');
+                filterBtns.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        filterBtns.forEach((b) => {
+                            b.classList.remove('active', 'bg-laut-600', 'text-white', 'shadow-sm');
+                            b.classList.add('bg-laut-50', 'text-laut-800');
+                        });
+                        btn.classList.add('active', 'bg-laut-600', 'text-white', 'shadow-sm');
+                        btn.classList.remove('bg-laut-50', 'text-laut-800');
+
+                        const kategori = btn.getAttribute('data-filter') || 'semua';
+                        renderPaketCards(kategori);
+                    });
+                });
+            }
+
+            // 3. Kalkulator Estimasi Biaya
+            function initCalculator() {
+                const serviceSelect = document.getElementById('calc-service');
+                const qtyInput = document.getElementById('calc-qty');
+                const qtyMinus = document.getElementById('qty-minus');
+                const qtyPlus = document.getElementById('qty-plus');
+                const toolsCheck = document.getElementById('calc-tools');
+                const totalDisplay = document.getElementById('calc-total-price');
+                const unitLabel = document.getElementById('calc-unit-label');
+                const orderBtn = document.getElementById('calc-order-btn');
+
+                if (!serviceSelect || !qtyInput || !totalDisplay) return;
+
+                function updateCalculation() {
+                    const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+                    const basePrice = parseInt(selectedOption.value, 10) || 0;
+                    const unitName = selectedOption.getAttribute('data-unit') || 'Unit';
+                    const qty = Math.max(1, Math.min(20, parseInt(qtyInput.value, 10) || 1));
+                    const toolsCost = toolsCheck && toolsCheck.checked ? 15000 : 0;
+
+                    qtyInput.value = String(qty);
+                    if (unitLabel) unitLabel.textContent = unitName;
+
+                    const total = basePrice * qty + toolsCost;
+                    totalDisplay.textContent = formatRupiah(total);
+                }
+
+                serviceSelect.addEventListener('change', updateCalculation);
+                if (toolsCheck) toolsCheck.addEventListener('change', updateCalculation);
+
+                if (qtyMinus) {
+                    qtyMinus.addEventListener('click', () => {
+                        const current = parseInt(qtyInput.value, 10) || 1;
+                        if (current > 1) {
+                            qtyInput.value = String(current - 1);
+                            updateCalculation();
+                        }
+                    });
+                }
+
+                if (qtyPlus) {
+                    qtyPlus.addEventListener('click', () => {
+                        const current = parseInt(qtyInput.value, 10) || 1;
+                        if (current < 20) {
+                            qtyInput.value = String(current + 1);
+                            updateCalculation();
+                        }
+                    });
+                }
+
+                if (orderBtn) {
+                    orderBtn.addEventListener('click', () => {
+                        const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+                        const serviceName = selectedOption.getAttribute('data-name') || 'Layanan Jasa Bersih';
+                        const qty = qtyInput.value;
+                        const totalText = totalDisplay.textContent;
+                        const toolsNote = toolsCheck && toolsCheck.checked ? ' + Alat Lengkap' : ' (Alat Sendiri)';
+                        openBookingModal(`${serviceName} (${qty}x)${toolsNote} — Est. ${totalText}`);
+                    });
+                }
+
+                updateCalculation();
+            }
+
+            // 4. Modal Pemesanan & Pengiriman WhatsApp Aman
+            const modal = document.getElementById('booking-modal');
+            const custServiceInput = document.getElementById('cust-service');
+
+            function openBookingModal(prefillService) {
+                if (!modal) return;
+                if (custServiceInput && prefillService) {
+                    custServiceInput.value = prefillService;
+                }
+                // Set default tanggal ke hari ini
+                const dateInput = document.getElementById('cust-date');
+                if (dateInput && !dateInput.value) {
+                    const today = new Date().toISOString().split('T')[0];
+                    dateInput.value = today;
+                    dateInput.min = today;
+                }
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+
+            function closeBookingModal() {
+                if (!modal) return;
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+
+            function initModalAndForm() {
+                document.querySelectorAll('[data-open-modal]').forEach((trigger) => {
+                    trigger.addEventListener('click', () => {
+                        const label = trigger.getAttribute('data-open-modal') || '';
+                        openBookingModal(label);
+                    });
+                });
+
+                const closeBtn = document.getElementById('close-modal-btn');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', closeBookingModal);
+                }
+
+                if (modal) {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) closeBookingModal();
+                    });
+                }
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+                        closeBookingModal();
+                    }
+                });
+
+                const bookingForm = document.getElementById('booking-form');
+                if (bookingForm) {
+                    bookingForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+
+                        const nama = document.getElementById('cust-name').value.trim();
+                        const layanan = document.getElementById('cust-service').value.trim();
+                        const tanggal = document.getElementById('cust-date').value.trim();
+                        const jam = document.getElementById('cust-time').value.trim();
+                        const alamat = document.getElementById('cust-address').value.trim();
+
+                        if (!nama || !layanan || !tanggal || !alamat) {
+                            showToast('Mohon lengkapi nama, layanan, tanggal, dan alamat Anda.', 'warning');
+                            return;
+                        }
+
+                        const pesanWA = [
+                            'Halo Admin *Jasa Bersih*, saya ingin pesan jadwal layanan:',
+                            `• *Nama:* ${nama}`,
+                            `• *Layanan:* ${layanan}`,
+                            `• *Jadwal:* ${tanggal} (${jam})`,
+                            `• *Alamat:* ${alamat}`,
+                            'Mohon konfirmasi ketersediaan petugas. Terima kasih!'
+                        ].join('\n');
+
+                        const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesanWA)}`;
+                        closeBookingModal();
+                        showToast('Membuka WhatsApp untuk mengirim pesanan...', 'success');
+
+                        window.open(waUrl, '_blank', 'noopener,noreferrer');
+                    });
+                }
+            }
+
+            // 5. FAQ Akordeon
+            function initFAQ() {
+                const triggers = document.querySelectorAll('.faq-trigger');
+                triggers.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const item = btn.closest('.faq-item');
+                        if (!item) return;
+                        const isActive = item.classList.contains('active');
+
+                        document.querySelectorAll('.faq-item').forEach((el) => el.classList.remove('active'));
+                        if (!isActive) {
+                            item.classList.add('active');
+                        }
+                    });
+                });
+            }
+
+            // 6. Navigasi Mobile & Copy Nomor Telepon
+            function initNavigationAndUtils() {
+                const menuBtn = document.getElementById('mobile-menu-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
+                const iconOpen = document.getElementById('icon-menu-open');
+                const iconClose = document.getElementById('icon-menu-close');
+
+                if (menuBtn && mobileMenu) {
+                    menuBtn.addEventListener('click', () => {
+                        const isHidden = mobileMenu.classList.toggle('hidden');
+                        menuBtn.setAttribute('aria-expanded', String(!isHidden));
+                        if (iconOpen && iconClose) {
+                            iconOpen.classList.toggle('hidden', !isHidden);
+                            iconClose.classList.toggle('hidden', isHidden);
+                        }
+                    });
+
+                    document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+                        link.addEventListener('click', () => {
+                            mobileMenu.classList.add('hidden');
+                            menuBtn.setAttribute('aria-expanded', 'false');
+                            if (iconOpen && iconClose) {
+                                iconOpen.classList.remove('hidden');
+                                iconClose.classList.add('hidden');
+                            }
+                        });
+                    });
+                }
+
+                // Tombol salin nomor WhatsApp kompatibel iFrame
+                const copyBtn = document.getElementById('copy-phone-btn');
+                if (copyBtn) {
+                    copyBtn.addEventListener('click', () => {
+                        const tempInput = document.createElement('input');
+                        tempInput.value = '+62 812-3456-7890';
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        try {
+                            document.execCommand('copy');
+                            showToast('Nomor WhatsApp berhasil disalin!', 'success');
+                        } catch (err) {
+                            showToast('Nomor WhatsApp: +62 812-3456-7890', 'info');
+                        }
+                        document.body.removeChild(tempInput);
+                    });
+                }
+
+                const yearEl = document.getElementById('current-year');
+                if (yearEl) {
+                    yearEl.textContent = String(new Date().getFullYear());
+                }
+            }
+
+            // Inisialisasi saat DOM siap
+            document.addEventListener('DOMContentLoaded', () => {
+                renderPaketCards('semua');
+                initFilters();
+                initCalculator();
+                initModalAndForm();
+                initFAQ();
+                initNavigationAndUtils();
+            });
+        })();
+    </script>
+</body>
+</html>
